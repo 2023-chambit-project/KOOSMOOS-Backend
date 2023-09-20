@@ -1,10 +1,10 @@
-import { Flag } from '../types/Flag.type';
+import type { Flag } from '../types/Flag.type';
 
 export class FlagsRepository {
   // DB 연동 후 아래 코드는 삭제됩니다.
   private flags: Flag[] = [
     {
-      idx: 1,
+      id: 1,
       writer: 'user1',
       greeting: 'hi',
       posX: 192.25,
@@ -13,7 +13,7 @@ export class FlagsRepository {
       shape: 'newMoon',
     },
     {
-      idx: 2,
+      id: 2,
       writer: 'user2',
       greeting: 'hello',
       posX: 192.23,
@@ -22,7 +22,7 @@ export class FlagsRepository {
       shape: 'firstQuarter',
     },
     {
-      idx: 3,
+      id: 3,
       writer: 'user3',
       greeting: 'world',
       posX: 132.25,
@@ -31,7 +31,7 @@ export class FlagsRepository {
       shape: 'waxingCrescent',
     },
     {
-      idx: 4,
+      id: 4,
       writer: 'user4',
       greeting: '안녕하세요.',
       posX: 190.23,
@@ -40,7 +40,7 @@ export class FlagsRepository {
       shape: 'waxingGibbous',
     },
     {
-      idx: 5,
+      id: 5,
       writer: 'user5',
       greeting: '인사드립니다.',
       posX: 192.25,
@@ -49,11 +49,24 @@ export class FlagsRepository {
       shape: 'newMoon',
     },
   ];
-  save() {}
+  save(flag: Flag) {
+    const id = this.flags[this.flags.length - 1].id + 1;
+    const formattedDate = this.getFormattedDate(new Date());
+
+    flag.id = id;
+    flag.createAt = formattedDate;
+    this.flags.push(flag);
+  }
   getTodaysFlags(moonShape) {
-    console.log(moonShape);
     return this.flags.filter((flag) => {
       return flag.shape == moonShape;
     });
+  }
+
+  private getFormattedDate(date: Date): string {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${String(date.getDate()).padStart(2, '0')}`;
   }
 }

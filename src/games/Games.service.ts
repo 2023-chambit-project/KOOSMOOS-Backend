@@ -2,8 +2,10 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { catchError, firstValueFrom } from 'rxjs';
 import { MBTIResults } from './constants/MBTIResult';
+import { ReqFlagDTO } from './dtos/ReqFlag.dto';
 import { FlagsRepository } from './repository/FlagsRepository.memory';
-import { Flag } from './types/Flag.type';
+import type { Flag } from './types/Flag.type';
+import { Moon } from './types/Moon.type';
 
 @Injectable()
 export class GamesService {
@@ -38,12 +40,30 @@ export class GamesService {
   async getFlags(): Promise<Flag[]> {
     const lunInfo = await this.getLunInfo();
     const moonShape = this.getMoonShape(lunInfo.lunAge);
-    console.log(moonShape);
     const flags = this.flagsRepository.getTodaysFlags(moonShape);
     return flags;
   }
 
-  private getMoonShape(lunAge) {
+  async saveFlag(request: ReqFlagDTO) {
+    const lunInfo = await this.getLunInfo();
+    const moon = this.getMoonShape(lunInfo.lunAge);
+
+    const newFlag: Flag = {
+      id: 0,
+      writer: request.writer,
+      greeting: request.greeting,
+      posX: request.posX,
+      posY: request.posY,
+      createAt: '2023-01-01',
+      shape: moon,
+    };
+
+    // 중복값에 대한 예처리가 필요한다.
+    try {
+      this.flagsRepository.save(newFlag);
+    } catch {}
+  }
+  private getMoonShape(lunAge): keyof Moon {
     if (lunAge < 3 || 27 < lunAge) return 'newMoon'; // 초하루
     if (lunAge < 7) return 'waxingCrescent'; // 초승
     if (lunAge < 10) return 'firstQuarter'; // 상현
@@ -76,11 +96,10 @@ export class GamesService {
           })
           .pipe(
             catchError(() => {
-              throw new Error('제공받은 서비스에 문제가 있습니다.');
+              throw new Error('제공받은 서비스에 문제가 있습니다.\n');
             }),
           ),
       );
-
       result = data.response.body.items.item;
       if (result === null || result === undefined) {
         throw new Error('달의 정보를 가져오는 것에 실패했습니다.');

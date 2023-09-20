@@ -4,7 +4,7 @@ export interface Moon {
   firstQuarter: string; // 상현
   waxingGibbous: string; // 상현 -> 보름
   fullMoon: string; // 보름
-  warningGibbous: string; // 보름 -> 하현
+  waningGibbous: string; // 보름 -> 하현
   thirdQuarter: string; // 하현
   waningCrescent: string; // 그믐
 }

@@ -1,7 +1,7 @@
-import { Moon } from './Moon.type';
+import type { Moon } from './Moon.type';
 
 export interface Flag {
-  idx: number;
+  id: number;
   writer: string;
   greeting: string;
   posX: number;

@@ -1,18 +1,25 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GamesService } from './Games.service';
-import { AnswersDTO } from './dtos/Answers.dto';
+import { ReqAnswersDTO } from './dtos/ReqAnswers.dto';
+import { ReqFlagDTO } from './dtos/ReqFlag.dto';
 
-@Controller('api/games')
+@Controller('/api/games')
 export class GamesController {
   constructor(private readonly gamesService: GamesService) {}
-  private readonly DATA_URL =
-    'https://apis.data.go.kr/B090041/openapi/service/LunPhInfoService/getLunPhInfo';
-  @Post('mbti')
-  getMBTIResult(@Body() request: AnswersDTO): { resultImageSrc: string } {
+  // MBTI 결과 조회
+  @Post('/mbti')
+  getMBTIResult(@Body() request: ReqAnswersDTO): { resultImageSrc: string } {
     return this.gamesService.analyzeMBTI(request.answers);
   }
-  @Get('flags')
+  // 오늘 보이는 깃발 조회
+  @Get('/flags')
   async getFlags() {
     return this.gamesService.getFlags();
+  }
+  // 깃발 세우기
+  @Post('/flags')
+  async uploadFlag(@Body() request: ReqFlagDTO) {
+    this.gamesService.saveFlag(request);
+    return true;
   }
 }
