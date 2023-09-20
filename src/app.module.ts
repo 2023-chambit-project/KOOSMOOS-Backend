@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { GamesModule } from './games/Games.module';
+import { TechWikiModule } from './tech-wiki/TechWiki.module';
 
 @Module({
   imports: [
@@ -10,6 +11,7 @@ import { GamesModule } from './games/Games.module';
       envFilePath: '.env.local', // env 파일 탐색 위치
     }),
     GamesModule,
+    TechWikiModule,
   ],
   controllers: [],
   providers: [],
