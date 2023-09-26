@@ -1,7 +1,7 @@
 import { GalleryContent } from '../types/galleryContent.type';
 
 export class galleryContentRepository {
-  private galContents: GalleryContent[] = [
+  private galleryContents: GalleryContent[] = [
     {
       id: 1,
       contentSrc: '/assets/tech-wiki/list-thumbnail/thumbnail1.png',
@@ -38,18 +38,31 @@ export class galleryContentRepository {
       category: 'planet',
     },
   ];
-  save() {}
+  save(content: GalleryContent) {
+    const id = this.galleryContents[this.galleryContents.length - 1].id + 1;
+    const formattedDate = this.getFormattedDate(new Date());
+    content.id = id;
+    content.createAt = formattedDate;
+    this.galleryContents.push(content);
+  }
 
   findByCategory(sortBy, category): GalleryContent[] {
     return sortBy === 'likes'
-      ? this.galContents
+      ? this.galleryContents
           .filter((item) => item.category === category)
           .sort((a, b) => b.likes - a.likes)
-      : this.galContents
+      : this.galleryContents
           .filter((item) => item.category === category)
           .sort(
             (a, b) =>
               new Date(b.createAt).getTime() - new Date(a.createAt).getTime(),
           );
+  }
+
+  private getFormattedDate(date: Date): string {
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${String(date.getDate()).padStart(2, '0')}`;
   }
 }

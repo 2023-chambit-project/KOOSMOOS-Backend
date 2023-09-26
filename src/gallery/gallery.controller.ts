@@ -1,6 +1,6 @@
-import { Controller, Get, Query } from '@nestjs/common';
-import { ResContentDTO } from './dtos';
-import { GalleryService } from './gallery.service';
+import { Controller, Get, Post, Query } from '@nestjs/common';
+import { GalleryService } from './Gallery.service';
+import { ReqUploadContent, ResContentDTO } from './dtos';
 import type { Category, Sorting } from './types';
 
 @Controller('gallery')
@@ -13,11 +13,10 @@ export class GalleryController {
   ): ResContentDTO[] {
     return this.galleryService.findByFilter(sortBy, category);
   }
-
-  //   @Post()
-  //   uploadImageInfo(request: ReqUploadContent) {
-
-  //   }
+  @Post()
+  uploadImageInfo(request: ReqUploadContent) {
+    this.galleryService.saveGalleryContent(request);
+  }
   //   @Post('/:id')
   //   updateLikeCnt() {}
   //   @Delete('/:id')

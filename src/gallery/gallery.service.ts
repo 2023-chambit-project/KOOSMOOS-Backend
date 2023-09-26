@@ -1,7 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { ReqUploadContent } from './dtos';
 import { ResContentDTO } from './dtos/ResContent.dto';
 import { galleryContentRepository } from './repository/GalleryContentRepository.memory';
-import type { Category, Sorting } from './types';
+import type { Category, GalleryContent, Sorting } from './types';
 
 @Injectable()
 export class GalleryService {
@@ -15,5 +16,15 @@ export class GalleryService {
     );
     const result = contents.map((content) => ResContentDTO.of(content));
     return result;
+  }
+  saveGalleryContent(request: ReqUploadContent) {
+    const newContent: GalleryContent = {
+      id: 0,
+      createAt: '2023-01-01',
+      contentSrc: request.contentSrc,
+      category: request.category,
+      likes: 1,
+    };
+    this.galleryContentRepository.save(newContent);
   }
 }
