@@ -64,7 +64,6 @@ export class PostRepository {
   }
   getOne(postId): Post {
     const found = this.posts.find((post) => post.id === postId);
-    console.log(found);
     return found;
   }
   private getFormattedDate(date: Date): string {
