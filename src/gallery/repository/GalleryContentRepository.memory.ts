@@ -38,15 +38,24 @@ export class galleryContentRepository {
       category: 'planet',
     },
   ];
-  save(content: GalleryContent) {
-    const id = this.galleryContents[this.galleryContents.length - 1].id + 1;
+  save(content: GalleryContent, id?: number) {
+    const newId = id
+      ? id
+      : this.galleryContents[this.galleryContents.length - 1].id + 1;
     const formattedDate = this.getFormattedDate(new Date());
-    content.id = id;
+    content.id = newId;
     content.createAt = formattedDate;
     this.galleryContents.push(content);
   }
 
-  findByCategory(sortBy, category): GalleryContent[] {
+  getOne(contentId): GalleryContent {
+    const found = this.galleryContents.find(
+      (content) => content.id === contentId,
+    );
+    return found;
+  }
+
+  searchByCategory(sortBy, category): GalleryContent[] {
     return sortBy === 'likes'
       ? this.galleryContents
           .filter((item) => item.category === category)
@@ -57,6 +66,13 @@ export class galleryContentRepository {
             (a, b) =>
               new Date(b.createAt).getTime() - new Date(a.createAt).getTime(),
           );
+  }
+
+  remove(contentId) {
+    const idx = this.galleryContents.findIndex(
+      (content) => content.id === contentId,
+    );
+    this.galleryContents.splice(idx, 1);
   }
 
   private getFormattedDate(date: Date): string {

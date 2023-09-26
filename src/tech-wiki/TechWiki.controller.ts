@@ -36,7 +36,7 @@ export class TechWikiController {
     @Param('id') postId: number,
     @Body() updateData: ReqUpdatePostDTO,
   ) {
-    return this.techWikiService.updatePost(postId, updateData);
+    this.techWikiService.updatePost(postId, updateData);
   }
   // 게시물 삭제
   @Delete('/:id')
