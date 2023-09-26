@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -11,7 +12,7 @@ import { GalleryService } from './Gallery.service';
 import { ReqUploadContent, ResContentDTO } from './dtos';
 import type { Category, Sorting } from './types';
 
-@Controller('gallery')
+@Controller('/api/gallery')
 export class GalleryController {
   constructor(private readonly galleryService: GalleryService) {}
   // 컨텐츠 목록 조회
@@ -24,17 +25,17 @@ export class GalleryController {
   }
   // 컨텐츠 업로드
   @Post()
-  uploadImageInfo(request: ReqUploadContent) {
+  uploadImageInfo(@Body() request: ReqUploadContent) {
     this.galleryService.saveGalleryContent(request);
   }
   // 좋아요 갱신
   @Patch('/:id')
-  upCountLike(@Param('') contentId: number) {
+  upCountLike(@Param('id') contentId: number) {
     this.galleryService.upCountLike(contentId);
   }
   // 컨텐츠 삭제
   @Delete('/:id')
-  deleteImageInfo(@Param('') contentId: number) {
+  deleteImageInfo(@Param('id') contentId: number) {
     this.galleryService.removeContent(contentId);
   }
 }
