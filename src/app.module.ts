@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { GalleryModule } from './gallery/gallery.module';
 import { GamesModule } from './games/Games.module';
 import { TechWikiModule } from './tech-wiki/TechWiki.module';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -12,6 +12,7 @@ import { TechWikiModule } from './tech-wiki/TechWiki.module';
     }),
     GamesModule,
     TechWikiModule,
+    GalleryModule,
   ],
   controllers: [],
   providers: [],
