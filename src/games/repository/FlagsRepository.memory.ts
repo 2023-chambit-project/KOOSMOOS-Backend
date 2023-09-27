@@ -1,4 +1,4 @@
-import type { Flag } from '../types/Flag.type';
+import type { Flag } from '../types';
 
 export class FlagsRepository {
   // DB 연동 후 아래 코드는 삭제됩니다.

@@ -2,10 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { catchError, firstValueFrom } from 'rxjs';
 import { MBTIResults } from './constants/MBTIResult';
-import { ReqFlagDTO } from './dtos/ReqFlag.dto';
+import { ReqFlagDTO } from './dtos';
 import { FlagsRepository } from './repository/FlagsRepository.memory';
-import type { Flag } from './types/Flag.type';
-import { Moon } from './types/Moon.type';
+import type { Flag, Moon } from './types';
 
 @Injectable()
 export class GamesService {

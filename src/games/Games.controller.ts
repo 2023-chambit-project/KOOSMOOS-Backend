@@ -1,7 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { GamesService } from './Games.service';
-import { ReqAnswersDTO } from './dtos/ReqAnswers.dto';
-import { ReqFlagDTO } from './dtos/ReqFlag.dto';
+import { ReqAnswersDTO, ReqFlagDTO } from './dtos';
 
 @Controller('/api/games')
 export class GamesController {
