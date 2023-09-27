@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { GalleryModule } from './gallery/gallery.module';
 import { GamesModule } from './games/Games.module';
 import { TechWikiModule } from './tech-wiki/TechWiki.module';
+import { ManageModule } from './manage/manage.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -13,6 +14,7 @@ import { TechWikiModule } from './tech-wiki/TechWiki.module';
     GamesModule,
     TechWikiModule,
     GalleryModule,
+    ManageModule,
   ],
   controllers: [],
   providers: [],
