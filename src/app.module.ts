@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { GalleryModule } from './gallery/gallery.module';
+import { GalleryModule } from './gallery/Gallery.module';
 import { GamesModule } from './games/Games.module';
+import { ManageModule } from './manage/Manage.module';
 import { TechWikiModule } from './tech-wiki/TechWiki.module';
-import { ManageModule } from './manage/manage.module';
 @Module({
   imports: [
     ConfigModule.forRoot({

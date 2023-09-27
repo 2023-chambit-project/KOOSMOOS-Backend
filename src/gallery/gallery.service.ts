@@ -1,6 +1,5 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ReqUploadContent } from './dtos';
-import { ResContentDTO } from './dtos/ResContent.dto';
+import { ReqUploadContent, ResContentDTO } from './dtos';
 import { galleryContentRepository } from './repository/GalleryContentRepository.memory';
 import type { Category, GalleryContent, Sorting } from './types';
 
