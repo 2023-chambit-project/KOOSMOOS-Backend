@@ -1,4 +1,4 @@
-import { GalleryContent } from '../types';
+import type { GalleryContent } from '../types';
 
 export class galleryContentRepository {
   private galleryContents: GalleryContent[] = [
