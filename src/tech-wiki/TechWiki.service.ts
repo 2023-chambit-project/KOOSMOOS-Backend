@@ -1,10 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { ReqCreatePostDTO } from './dtos/ReqCreatePost.dto';
-import { ReqUpdatePostDTO } from './dtos/ReqUpdatePost.dto';
-import { ResPostDTO } from './dtos/ResPost.dto';
-import { ResPostSummaryDTO } from './dtos/ResPostSummary.dto';
+import {
+  ReqCreatePostDTO,
+  ReqUpdatePostDTO,
+  ResPostDTO,
+  ResPostSummaryDTO,
+} from './dtos';
 import { PostRepository } from './repository/PostsRepository.memory';
-import type { Post } from './types/Post.type';
+import type { Post } from './types';
 
 @Injectable()
 export class TechWikiService {

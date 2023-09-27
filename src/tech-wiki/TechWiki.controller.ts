@@ -8,9 +8,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { TechWikiService } from './TechWiki.service';
-import { ReqCreatePostDTO } from './dtos/ReqCreatePost.dto';
-import { ReqUpdatePostDTO } from './dtos/ReqUpdatePost.dto';
-import { ResPostDTO } from './dtos/ResPost.dto';
+import { ReqCreatePostDTO, ReqUpdatePostDTO, ResPostDTO } from './dtos';
 
 @Controller('/api/wiki')
 export class TechWikiController {

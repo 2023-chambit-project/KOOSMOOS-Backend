@@ -1,4 +1,4 @@
-import type { Post } from '../types/Post.type';
+import type { Post } from '../types';
 
 export class PostRepository {
   private posts: Post[] = [
