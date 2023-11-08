@@ -3,6 +3,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { catchError, firstValueFrom } from 'rxjs';
 import { MBTIResults } from './constants/MBTIResult';
 import { ReqFlagDTO } from './dtos';
+import { ResMoonNLFlags } from './dtos/ResMoonNFlags.dto';
 import { FlagsRepository } from './repository/FlagsRepository.memory';
 import type { Flag, Moon } from './types';
 
@@ -36,11 +37,15 @@ export class GamesService {
   }
 
   // 모든 깃발 가져오기.
-  async getFlags(): Promise<Flag[]> {
+  async getFlags(): Promise<ResMoonNLFlags> {
     const lunInfo = await this.getLunInfo();
-    const moonShape = this.getMoonShape(lunInfo.lunAge);
-    const flags = this.flagsRepository.getTodaysFlags(moonShape);
-    return flags;
+    const moon = this.getMoonShape(lunInfo.lunAge);
+    const flags = this.flagsRepository.getTodaysFlags(moon);
+    const result: ResMoonNLFlags = {
+      moonShape: moon,
+      flagList: flags,
+    };
+    return result;
   }
 
   async saveFlag(request: ReqFlagDTO) {
