@@ -46,28 +46,17 @@ export class TechWikiService {
   }
 
   updatePost(postId: number, updateData: ReqUpdatePostDTO) {
-    const found: Post = this.postsRepository.getOne(postId);
+    let found: Post = this.postsRepository.getOne(postId);
     if (!found) {
       throw new HttpException(
         '존재하지 않는 게시물입니다.',
         HttpStatus.NOT_FOUND,
       );
     }
-    const {
-      thumbnail,
-      title,
-      content,
-      description,
-      writer: { profile_img, nickname },
-    } = updateData;
-
-    if (thumbnail) found.thumbnail = thumbnail;
-    if (title) found.title = title;
-    if (content) found.content = content;
-    if (description) found.description = description;
-    if (profile_img) found.profile_img = profile_img;
-    if (nickname) found.nickname = nickname;
-
+    found = {
+      ...found,
+      ...updateData,
+    };
     this.postsRepository.remove(found.id);
     this.postsRepository.save(found);
   }
