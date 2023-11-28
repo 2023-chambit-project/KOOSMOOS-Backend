@@ -19,7 +19,6 @@ export class GamesController {
   // 깃발 세우기
   @Post('/flags')
   async uploadFlag(@Body() request: ReqFlagDTO) {
-    this.gamesService.saveFlag(request);
-    return true;
+    return this.gamesService.saveFlag(request);
   }
 }

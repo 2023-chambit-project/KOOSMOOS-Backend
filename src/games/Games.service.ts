@@ -1,11 +1,12 @@
 import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { catchError, firstValueFrom } from 'rxjs';
+import getTodaysLunaInfo from './apis.ts/Luna';
 import { MBTIResults } from './constants/MBTIResult';
 import { ReqFlagDTO } from './dtos';
 import { ResMoonNLFlags } from './dtos/ResMoonNFlags.dto';
 import { FlagsRepository } from './repository/FlagsRepository.memory';
-import type { Flag, Moon } from './types';
+import { Flag, Moon } from './types';
+import DateCalculation from './utils/DateCalculation';
 
 @Injectable()
 export class GamesService {
@@ -14,7 +15,7 @@ export class GamesService {
   flagsRepository = new FlagsRepository();
 
   // MBTI 분석하기.
-  analyzeMBTI(input: string[]) {
+  analyzeMBTI = (input: string[]) => {
     const counter = {
       E: 0,
       I: 0,
@@ -34,23 +35,34 @@ export class GamesService {
       (counter.T >= counter.F ? 'T' : 'F') +
       (counter.J >= counter.P ? 'J' : 'P');
     return { resultImageSrc: MBTIResults[result] };
-  }
+  };
 
   // 모든 깃발 가져오기.
-  async getFlags(): Promise<ResMoonNLFlags> {
-    const lunInfo = await this.getLunInfo();
-    const moon = this.getMoonShape(lunInfo.lunAge);
-    const flags = this.flagsRepository.getTodaysFlags(moon);
+  getFlags = async () => {
+    let moonShape: keyof Moon;
+    try {
+      const lunInfo = await getTodaysLunaInfo();
+      moonShape = DateCalculation.getMoonShapeByLunaAge(lunInfo.lunAge);
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
+    }
+
+    const flags = this.flagsRepository.getTodaysFlags(moonShape);
     const result: ResMoonNLFlags = {
-      moonShape: moon,
+      moonShape: moonShape,
       flagList: flags,
     };
     return result;
-  }
+  };
 
-  async saveFlag(request: ReqFlagDTO) {
-    const lunInfo = await this.getLunInfo();
-    const moon = this.getMoonShape(lunInfo.lunAge);
+  saveFlag = async (request: ReqFlagDTO) => {
+    let moonShape: keyof Moon;
+    try {
+      const lunInfo = await getTodaysLunaInfo();
+      moonShape = DateCalculation.getMoonShapeByLunaAge(lunInfo.lunAge);
+    } catch (e) {
+      throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
+    }
 
     const newFlag: Flag = {
       id: 0,
@@ -59,58 +71,12 @@ export class GamesService {
       posX: request.posX,
       posY: request.posY,
       createAt: '2023-01-01',
-      shape: moon,
+      shape: moonShape,
     };
 
     // 중복값에 대한 예처리가 필요한다.
     try {
       this.flagsRepository.save(newFlag);
     } catch {}
-  }
-  private getMoonShape(lunAge): keyof Moon {
-    if (lunAge < 3 || 27 < lunAge) return 'newMoon'; // 초하루
-    if (lunAge < 7) return 'waxingCrescent'; // 초승
-    if (lunAge < 10) return 'firstQuarter'; // 상현
-    if (lunAge < 14) return 'waxingGibbous'; // 상현 -> 보름
-    if (lunAge < 16) return 'fullMoon'; // 보름
-    if (lunAge < 19) return 'waningGibbous'; // 보름 -> 하현
-    if (lunAge < 23) return 'thirdQuarter'; // 하현
-    if (lunAge <= 27) return 'waningCrescent'; // 그믐
-  }
-
-  private async getLunInfo() {
-    const DATA_URL =
-      'https://apis.data.go.kr/B090041/openapi/service/LunPhInfoService/getLunPhInfo';
-    const TODAY = new Date();
-    const TODAY_SOL_YEAR = TODAY.getFullYear().toString().padStart(4, '0');
-    const TODAY_SOL_MONTH = (TODAY.getMonth() + 1).toString().padStart(2, '0');
-    const TODAY_SOL_DAY = TODAY.getDate().toString().padStart(2, '0');
-
-    let result;
-    try {
-      const { data } = await firstValueFrom(
-        this.httpService
-          .get(DATA_URL, {
-            params: {
-              serviceKey: process.env.NEST_PUBLIC_DATA_LUNA_KEY,
-              solYear: TODAY_SOL_YEAR,
-              solMonth: TODAY_SOL_MONTH,
-              solDay: TODAY_SOL_DAY,
-            },
-          })
-          .pipe(
-            catchError(() => {
-              throw new Error('제공받은 서비스에 문제가 있습니다.\n');
-            }),
-          ),
-      );
-      result = data.response.body.items.item;
-      if (result === null || result === undefined) {
-        throw new Error('달의 정보를 가져오는 것에 실패했습니다.');
-      }
-    } catch (e) {
-      throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
-    }
-    return result;
-  }
+  };
 }
