@@ -46,12 +46,23 @@ export class GamesService {
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
-
     const flags = this.flagsRepository.getTodaysFlags(moonShape);
+
     const result: ResMoonNLFlags = {
       moonShape: moonShape,
-      flagList: flags,
+      flagList: [],
     };
+    flags.forEach((flag) => {
+      result.flagList.push({
+        id: flag.id,
+        writer: flag.writer,
+        greeting: flag.greeting,
+        posX: flag.posX,
+        posY: flag.posY,
+        createAt: flag.createAt,
+      });
+    });
+
     return result;
   };
 
