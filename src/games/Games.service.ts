@@ -1,17 +1,19 @@
-import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import getTodaysLunaInfo from './apis.ts/Luna';
 import { MBTIResults } from './constants/MBTIResult';
 import { ReqFlagDTO, ResMoonNLFlags } from './dtos';
-import { FlagsRepository } from './repository/FlagsRepository.memory';
+import { FlagEntity } from './entities/Flag.entity';
 import type * as T from './types';
 import DateCalculation from './utils/DateCalculation';
 
 @Injectable()
 export class GamesService {
-  constructor(private readonly httpService: HttpService) {}
-  /* 아래 코드는 DB 연동 이후 삭제 됩니다. */
-  flagsRepository = new FlagsRepository();
+  constructor(
+    @InjectRepository(FlagEntity)
+    private flagRepository: Repository<FlagEntity>,
+  ) {}
 
   // MBTI 분석하기.
   analyzeMBTI = (input: string[]) => {
@@ -45,12 +47,14 @@ export class GamesService {
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
-    const flags = this.flagsRepository.getTodaysFlags(moonShape);
+    // const flags = this.flagsRepository.getTodaysFlags(moonShape);
+    const flags = await this.flagRepository.findBy({ shape: moonShape });
 
     const result: ResMoonNLFlags = {
       moonShape: moonShape,
       flagList: [],
     };
+
     flags.forEach((flag) => {
       result.flagList.push({
         id: flag.id,
@@ -86,7 +90,8 @@ export class GamesService {
 
     // 중복값에 대한 예처리가 필요한다.
     try {
-      this.flagsRepository.save(newFlag);
+      this.flagRepository.create(newFlag);
+      // this.flagsRepository.save(newFlag);
     } catch {}
   };
 }
