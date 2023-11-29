@@ -1,1 +1,1 @@
-export * from './Post.type';
+export type * from './Post.type';

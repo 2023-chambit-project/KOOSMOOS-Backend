@@ -1,4 +1,4 @@
-import type { Moon } from '../types';
+import * as T from '../types';
 
 const getTodaysYMD = () => {
   const today = new Date();
@@ -9,7 +9,7 @@ const getTodaysYMD = () => {
   return { year, month, date };
 };
 
-const getMoonShapeByLunaAge = (lunAge: number): keyof Moon => {
+const getMoonShapeByLunaAge = (lunAge: number): keyof T.Moon => {
   if (lunAge < 3 || 27 < lunAge) return 'newMoon'; // 초하루
   if (lunAge < 7) return 'waxingCrescent'; // 초승
   if (lunAge < 10) return 'firstQuarter'; // 상현

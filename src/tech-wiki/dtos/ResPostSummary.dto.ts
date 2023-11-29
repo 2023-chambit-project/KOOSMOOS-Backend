@@ -1,4 +1,4 @@
-import type { Post } from '../types/Post.type';
+import * as T from '../types';
 
 export class ResPostSummaryDTO {
   id: number;
@@ -7,7 +7,7 @@ export class ResPostSummaryDTO {
   description: string;
   date: string;
 
-  static of(post: Post): ResPostSummaryDTO {
+  static of(post: T.Post): ResPostSummaryDTO {
     return {
       id: post.id,
       thumbnail: post.thumbnail,

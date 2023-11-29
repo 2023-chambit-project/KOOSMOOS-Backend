@@ -1,6 +1,6 @@
-import { Flag, Moon } from '../types';
+import type * as T from '../types';
 
 export class ResMoonNLFlags {
-  moonShape: keyof Moon;
-  flagList: Omit<Flag, 'shape'>[];
+  moonShape: keyof T.Moon;
+  flagList: Omit<T.Flag, 'shape'>[];
 }

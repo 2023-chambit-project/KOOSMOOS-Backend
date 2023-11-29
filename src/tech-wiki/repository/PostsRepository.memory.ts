@@ -1,10 +1,10 @@
-import type { Post } from '../types';
+import type * as T from '../types';
 
 export class PostRepository {
-  private posts: Post[] = [
+  private posts: T.Post[] = [
     {
       id: 1,
-      thumbnail: `/assets/tech-wiki/list-thumbnail/thumbnail1.png`,
+      thumbnail: `https://github.com/TransparentDeveloper/ImageRepo/blob/main/Gallery/planet/planet3.jpeg?raw=true`,
       title: '1번 포스트입니다.',
       description:
         '천체를 관측해요 천체를 관측해요 천체를 관측해요 천체를 관측해요. 천체를 관측해요 천체를 관측해요 천체를 관측해요',
@@ -15,7 +15,7 @@ export class PostRepository {
     },
     {
       id: 2,
-      thumbnail: `/assets/tech-wiki/list-thumbnail/thumbnail2.png`,
+      thumbnail: `https://github.com/TransparentDeveloper/ImageRepo/blob/main/Gallery/planet/planet5.jpeg?raw=true`,
       title: '2번 포스트입니다.',
       description:
         '천체를 관측해요 천체를 관측해요 천체를 관측해요 천체를 관측해요. 천체를 관측해요 천체를 관측해요 천체를 관측해요',
@@ -26,7 +26,7 @@ export class PostRepository {
     },
     {
       id: 3,
-      thumbnail: `/assets/tech-wiki/list-thumbnail/thumbnail1.png`,
+      thumbnail: `https://github.com/TransparentDeveloper/ImageRepo/blob/main/Gallery/space/space6.jpeg?raw=true`,
       title: '3번 포스트입니다.',
       description:
         '천체를 관측해요 천체를 관측해요 천체를 관측해요 천체를 관측해요. 천체를 관측해요 천체를 관측해요 천체를 관측해요',
@@ -37,7 +37,7 @@ export class PostRepository {
     },
     {
       id: 4,
-      thumbnail: `/assets/tech-wiki/list-thumbnail/thumbnail2.png`,
+      thumbnail: `https://github.com/TransparentDeveloper/ImageRepo/blob/main/Gallery/space/space4.jpeg?raw=true`,
       title: '4번 포스트입니다.',
       description:
         '천체를 관측해요 천체를 관측해요 천체를 관측해요 천체를 관측해요. 천체를 관측해요 천체를 관측해요 천체를 관측해요',
@@ -51,7 +51,7 @@ export class PostRepository {
     const idx = this.posts.findIndex((post) => post.id === postId);
     this.posts.splice(idx, 1);
   }
-  save(post: Post) {
+  save(post: T.Post) {
     const id = this.posts[this.posts.length - 1].id + 1;
     const formattedDate = this.getFormattedDate(new Date());
 
@@ -59,10 +59,10 @@ export class PostRepository {
     post.createAt = formattedDate;
     this.posts.push(post);
   }
-  getAll(): Post[] {
+  getAll(): T.Post[] {
     return this.posts;
   }
-  getOne(postId): Post {
+  getOne(postId): T.Post {
     const found = this.posts.find((post) => post.id === postId);
     return found;
   }

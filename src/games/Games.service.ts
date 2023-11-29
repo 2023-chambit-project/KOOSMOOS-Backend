@@ -2,10 +2,9 @@ import { HttpService } from '@nestjs/axios';
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import getTodaysLunaInfo from './apis.ts/Luna';
 import { MBTIResults } from './constants/MBTIResult';
-import { ReqFlagDTO } from './dtos';
-import { ResMoonNLFlags } from './dtos/ResMoonNFlags.dto';
+import { ReqFlagDTO, ResMoonNLFlags } from './dtos';
 import { FlagsRepository } from './repository/FlagsRepository.memory';
-import { Flag, Moon } from './types';
+import type * as T from './types';
 import DateCalculation from './utils/DateCalculation';
 
 @Injectable()
@@ -39,7 +38,7 @@ export class GamesService {
 
   // 모든 깃발 가져오기.
   getFlags = async () => {
-    let moonShape: keyof Moon;
+    let moonShape: keyof T.Moon;
     try {
       const lunInfo = await getTodaysLunaInfo();
       moonShape = DateCalculation.getMoonShapeByLunaAge(lunInfo.lunAge);
@@ -67,7 +66,7 @@ export class GamesService {
   };
 
   saveFlag = async (request: ReqFlagDTO) => {
-    let moonShape: keyof Moon;
+    let moonShape: keyof T.Moon;
     try {
       const lunInfo = await getTodaysLunaInfo();
       moonShape = DateCalculation.getMoonShapeByLunaAge(lunInfo.lunAge);
@@ -75,7 +74,7 @@ export class GamesService {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    const newFlag: Flag = {
+    const newFlag: T.Flag = {
       id: 0,
       writer: request.writer,
       greeting: request.greeting,

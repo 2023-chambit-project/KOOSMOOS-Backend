@@ -1,2 +1,2 @@
-export * from './Flag.type';
-export * from './Moon.type';
+export type * from './Flag.type';
+export type * from './Moon.type';

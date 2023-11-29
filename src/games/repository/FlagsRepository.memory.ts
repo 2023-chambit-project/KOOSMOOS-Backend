@@ -1,8 +1,8 @@
-import type { Flag } from '../types';
+import type * as T from '../types';
 
 export class FlagsRepository {
   // DB 연동 후 아래 코드는 삭제됩니다.
-  private flags: Flag[] = [
+  private flags: T.Flag[] = [
     {
       id: 2,
       writer: 'user2',
@@ -76,7 +76,7 @@ export class FlagsRepository {
       shape: 'waningCrescent',
     },
   ];
-  save(flag: Flag) {
+  save(flag: T.Flag) {
     const id = this.flags[this.flags.length - 1].id + 1;
     const formattedDate = this.getFormattedDate(new Date());
 

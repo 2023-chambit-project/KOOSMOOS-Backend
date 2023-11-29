@@ -1,4 +1,4 @@
-import type { Moon } from './Moon.type';
+import type * as T from '.';
 
 export interface Flag {
   id: number;
@@ -7,5 +7,5 @@ export interface Flag {
   posX: number;
   posY: number;
   createAt: string;
-  shape: keyof Moon;
+  shape: keyof T.Moon;
 }

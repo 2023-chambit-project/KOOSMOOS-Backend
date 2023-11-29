@@ -6,7 +6,7 @@ import {
   ResPostSummaryDTO,
 } from './dtos';
 import { PostRepository } from './repository/PostsRepository.memory';
-import type { Post } from './types';
+import type * as T from './types';
 
 @Injectable()
 export class TechWikiService {
@@ -20,7 +20,7 @@ export class TechWikiService {
   }
 
   getTechWikiPost(postId: number): ResPostDTO {
-    const found: Post = this.postsRepository.getOne(postId);
+    const found: T.Post = this.postsRepository.getOne(postId);
     try {
       if (!found) throw new Error('존재하지 않는 게시물입니다.');
     } catch (e) {
@@ -32,7 +32,7 @@ export class TechWikiService {
 
   savePost(request: ReqCreatePostDTO) {
     /** id, date 는 db에서 알아서 나온다. */
-    const newPost: Post = {
+    const newPost: T.Post = {
       id: 0,
       createAt: '2023-01-01',
       thumbnail: request.thumbnail,
@@ -46,7 +46,7 @@ export class TechWikiService {
   }
 
   updatePost(postId: number, updateData: ReqUpdatePostDTO) {
-    let found: Post = this.postsRepository.getOne(postId);
+    let found: T.Post = this.postsRepository.getOne(postId);
     if (!found) {
       throw new HttpException(
         '존재하지 않는 게시물입니다.',
@@ -63,7 +63,7 @@ export class TechWikiService {
 
   removePost(postId: number) {
     try {
-      const found: Post = this.postsRepository.getOne(postId);
+      const found: T.Post = this.postsRepository.getOne(postId);
       if (!found) throw new Error('존재하지 않는 게시물입니다.');
       this.postsRepository.remove(found.id);
     } catch (e) {
