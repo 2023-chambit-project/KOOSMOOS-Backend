@@ -1,5 +1,5 @@
 /*추후에 자체 자체 이미지서버로 교체*/
-export const MBTIResults = {
+const MBTIResults = {
   ISTJ: 'https://koosmoos-test-bucket.s3.ap-northeast-2.amazonaws.com/games/mbti-results/ISTJ.webp',
   ISFJ: 'https://koosmoos-test-bucket.s3.ap-northeast-2.amazonaws.com/games/mbti-results/ISFJ.webp',
   INFJ: 'https://koosmoos-test-bucket.s3.ap-northeast-2.amazonaws.com/games/mbti-results/INFJ.webp',
@@ -17,3 +17,5 @@ export const MBTIResults = {
   ENFJ: 'https://koosmoos-test-bucket.s3.ap-northeast-2.amazonaws.com/games/mbti-results/ENFJ.webp',
   ENTJ: 'https://koosmoos-test-bucket.s3.ap-northeast-2.amazonaws.com/games/mbti-results/ENTJ.webp',
 };
+
+export default MBTIResults;

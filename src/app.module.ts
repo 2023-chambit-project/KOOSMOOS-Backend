@@ -3,9 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { GamesModule } from './games/Games.module';
-import { Flag } from './games/entities/Flag.entity';
+import { FlagEntity } from './games/entities/Flag.entity';
 import { ManageModule } from './manage/Manage.module';
 import { TechWikiModule } from './tech-wiki/TechWiki.module';
+import { PostEntity } from './tech-wiki/entities/Post.entity';
 
 @Module({
   imports: [
@@ -21,7 +22,7 @@ import { TechWikiModule } from './tech-wiki/TechWiki.module';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWD,
       database: process.env.DB_DATABASE,
-      entities: [Flag],
+      entities: [FlagEntity, PostEntity],
       synchronize: true, //
       autoLoadEntities: true, // entity 가 자동으로 로드
     }),

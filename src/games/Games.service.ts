@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import getTodaysLunaInfo from './apis.ts/Luna';
-import { MBTIResults } from './constants/MBTIResult';
+import MBTIResults from './constants/MBTIResult';
 import { ReqFlagDTO, ResMoonNLFlags } from './dtos';
 import { FlagEntity } from './entities/Flag.entity';
 import type * as T from './types';

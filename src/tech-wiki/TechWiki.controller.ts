@@ -15,30 +15,30 @@ export class TechWikiController {
   constructor(private readonly techWikiService: TechWikiService) {}
   // 게시물 목록 조회
   @Get()
-  getTechWikiSummaryList() {
-    return this.techWikiService.getTechWikiSummaryList();
+  async getTechWikiSummaryList() {
+    return await this.techWikiService.getTechWikiSummaryList();
   }
   // 특정 게시물 정보 조회
   @Get('/:id')
-  getTechWikiPost(@Param('id') postId: number): ResPostDTO {
-    return this.techWikiService.getTechWikiPost(postId);
+  async getTechWikiPost(@Param('id') postId: number): Promise<ResPostDTO> {
+    return await this.techWikiService.getTechWikiPost(postId);
   }
   // 게시물 업로드
   @Post()
-  uploadPost(@Body() request: ReqCreatePostDTO) {
-    this.techWikiService.savePost(request);
+  async uploadPost(@Body() request: ReqCreatePostDTO) {
+    await this.techWikiService.savePost(request);
   }
   // 게시물 수정
   @Patch('/:id')
-  updatePost(
+  async updatePost(
     @Param('id') postId: number,
     @Body() updateData: ReqUpdatePostDTO,
   ) {
-    this.techWikiService.updatePost(postId, updateData);
+    await this.techWikiService.updatePost(postId, updateData);
   }
   // 게시물 삭제
   @Delete('/:id')
-  deletePost(@Param('id') postId: number) {
-    this.techWikiService.removePost(postId);
+  async deletePost(@Param('id') postId: number) {
+    await this.techWikiService.removePost(postId);
   }
 }
