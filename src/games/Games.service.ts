@@ -1,12 +1,13 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { PickFlagBackgroundImgSrcOne } from '../utils/AutoPicker';
+import DateCalculation from '../utils/DateCalculation';
 import getTodaysLunaInfo from './apis.ts/Luna';
 import MBTIResults from './constants/MBTIResult';
 import { ReqFlagDTO, ResMoonNLFlags } from './dtos';
 import { FlagEntity } from './entities/Flag.entity';
 import type * as T from './types';
-import DateCalculation from './utils/DateCalculation';
 
 @Injectable()
 export class GamesService {
@@ -39,7 +40,7 @@ export class GamesService {
   };
 
   // 모든 깃발 가져오기.
-  getFlags = async () => {
+  getFlags = async (): Promise<ResMoonNLFlags> => {
     let moonShape: keyof T.Moon;
     try {
       const lunInfo = await getTodaysLunaInfo();
@@ -47,7 +48,6 @@ export class GamesService {
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
-    // const flags = this.flagsRepository.getTodaysFlags(moonShape);
     const flags = await this.flagRepository.findBy({ shape: moonShape });
 
     const result: ResMoonNLFlags = {
@@ -62,7 +62,7 @@ export class GamesService {
         greeting: flag.greeting,
         posX: flag.posX,
         posY: flag.posY,
-        createAt: flag.createAt,
+        img_src: PickFlagBackgroundImgSrcOne(flag.id),
       });
     });
 
@@ -78,19 +78,18 @@ export class GamesService {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
-    const newFlag: T.Flag = {
+    const { year, month, date } = DateCalculation.getTodaysYMD();
+
+    const newFlag: Omit<T.Flag, 'img_src'> = {
       id: 0,
       writer: request.writer,
       greeting: request.greeting,
       posX: request.posX,
       posY: request.posY,
-      createAt: '2023-01-01',
+      createAt: `${year}-${month}-${date}`,
       shape: moonShape,
     };
-
-    // 중복값에 대한 예처리가 필요한다.
     try {
-      // this.flagRepository.create(newFlag);
       this.flagRepository.save(newFlag);
     } catch {}
   };

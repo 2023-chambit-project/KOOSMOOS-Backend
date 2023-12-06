@@ -1,9 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import type * as T from '../types';
 
 @Entity({ name: 'Flag' })
@@ -23,7 +18,7 @@ export class FlagEntity {
   @Column({ type: 'float' })
   posY: number;
 
-  @CreateDateColumn({ name: 'createAt' })
+  @Column()
   createAt: string;
 
   @Column({

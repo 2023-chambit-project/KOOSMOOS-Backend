@@ -7,5 +7,6 @@ export interface Flag {
   posX: number;
   posY: number;
   createAt: string;
+  img_src: string;
   shape: keyof T.Moon;
 }

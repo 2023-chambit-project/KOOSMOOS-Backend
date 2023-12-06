@@ -1,9 +1,4 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'Post' })
 export class PostEntity {
@@ -19,7 +14,7 @@ export class PostEntity {
   @Column({ type: 'varchar' })
   description: string;
 
-  @CreateDateColumn({ name: 'createAt' })
+  @Column()
   createAt: string;
 
   @Column({ type: 'varchar' })
