@@ -1,5 +1,5 @@
 import axios from 'axios';
-import DateCalculation from '../utils/DateCalculation';
+import DateCalculation from '../../utils/DateCalculation';
 
 const getTodaysLunaInfo = async () => {
   const today = DateCalculation.getTodaysYMD();

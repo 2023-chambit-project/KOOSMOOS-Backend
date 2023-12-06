@@ -1,4 +1,4 @@
-import * as T from '../types';
+import * as T from '../games/types';
 
 const getTodaysYMD = () => {
   const today = new Date();

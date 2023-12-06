@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import DateCalculation from 'src/utils/DateCalculation';
 import { Repository } from 'typeorm';
 import {
   ReqCreatePostDTO,
@@ -38,10 +39,10 @@ export class TechWikiService {
   }
 
   async savePost(request: ReqCreatePostDTO) {
-    /** id, date 는 db에서 알아서 나온다. */
+    const { year, month, date } = DateCalculation.getTodaysYMD();
     const newPost: T.Post = {
       id: 0,
-      createAt: '2023-01-01',
+      createAt: `${year}-${month}-${date}`,
       thumbnail: request.thumbnail,
       title: request.title,
       description: request.description,
