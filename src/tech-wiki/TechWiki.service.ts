@@ -49,7 +49,7 @@ export class TechWikiService {
       nickname: request.writer.nickname,
       profile_img: request.writer.profile_img,
     };
-    this.postRepository.create(newPost);
+    this.postRepository.save(newPost);
   }
 
   async updatePost(postId: number, updateData: ReqUpdatePostDTO) {

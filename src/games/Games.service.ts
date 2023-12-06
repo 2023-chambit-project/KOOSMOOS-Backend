@@ -90,8 +90,8 @@ export class GamesService {
 
     // 중복값에 대한 예처리가 필요한다.
     try {
-      this.flagRepository.create(newFlag);
-      // this.flagsRepository.save(newFlag);
+      // this.flagRepository.create(newFlag);
+      this.flagRepository.save(newFlag);
     } catch {}
   };
 }

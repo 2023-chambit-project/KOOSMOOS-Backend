@@ -5,27 +5,27 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'Post' })
 export class PostEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar' })
   thumbnail: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   title: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   description: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'createAt' })
   createAt: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   nickname: string;
 
-  @Column()
+  @Column({ type: 'varchar' })
   profile_img: string;
 
   @Column({

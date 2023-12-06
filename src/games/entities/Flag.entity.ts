@@ -6,24 +6,24 @@ import {
 } from 'typeorm';
 import type * as T from '../types';
 
-@Entity()
+@Entity({ name: 'Flag' })
 export class FlagEntity {
   @PrimaryGeneratedColumn({ name: 'id', type: 'bigint' })
   id: number;
 
-  @Column()
+  @Column({ type: 'varchar', length: 9 })
   writer: string;
 
-  @Column()
+  @Column({ type: 'varchar', length: 31 })
   greeting: string;
 
-  @Column()
+  @Column({ type: 'float' })
   posX: number;
 
-  @Column()
+  @Column({ type: 'float' })
   posY: number;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ name: 'createAt' })
   createAt: string;
 
   @Column({
