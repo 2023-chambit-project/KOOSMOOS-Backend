@@ -23,7 +23,7 @@ import { PostEntity } from './tech-wiki/entities/Post.entity';
       password: process.env.DB_PASSWD,
       database: process.env.DB_DATABASE,
       entities: [FlagEntity, PostEntity],
-      synchronize: true, //
+      synchronize: false,
       autoLoadEntities: true, // entity 가 자동으로 로드
     }),
     GamesModule,

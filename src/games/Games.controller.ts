@@ -18,7 +18,7 @@ export class GamesController {
   }
   // 깃발 세우기
   @Post('/flags')
-  async uploadFlag(@Body() request: ReqFlagDTO) {
+  async uploadFlag(@Body() request: ReqFlagDTO): Promise<ResMoonNLFlags> {
     return this.gamesService.saveFlag(request);
   }
 }
