@@ -69,7 +69,7 @@ export class GamesService {
     return result;
   };
 
-  saveFlag = async (request: ReqFlagDTO): Promise<ResMoonNLFlags> => {
+  saveFlag = async (request: ReqFlagDTO): Promise<void> => {
     let moonShape: keyof T.Moon;
     try {
       const lunInfo = await getTodaysLunaInfo();
@@ -93,33 +93,9 @@ export class GamesService {
       this.flagRepository.save(newFlag);
     } catch {
       throw new HttpException(
-        '저장이 실하였습니다.',
+        '저장이 실패하였습니다.',
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-
-    const foundFlag = await this.flagRepository.findOneBy({
-      writer: request.writer,
-      greeting: request.greeting,
-      posX: request.posX,
-      posY: request.posY,
-      shape: moonShape,
-    });
-
-    const result: ResMoonNLFlags = {
-      moonShape: moonShape,
-      flagList: [],
-    };
-
-    result.flagList.push({
-      id: foundFlag.id,
-      writer: foundFlag.writer,
-      greeting: foundFlag.greeting,
-      posX: foundFlag.posX,
-      posY: foundFlag.posY,
-      img_src: PickFlagBackgroundImgSrcOne(foundFlag.id),
-    });
-
-    return result;
   };
 }
