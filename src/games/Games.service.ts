@@ -48,7 +48,18 @@ export class GamesService {
     } catch (e) {
       throw new HttpException(e.message, HttpStatus.SERVICE_UNAVAILABLE);
     }
-    const flags = await this.flagRepository.findBy({ shape: moonShape });
+
+    let foundFlags = [];
+    try {
+      foundFlags = await this.flagRepository.findBy({ shape: moonShape });
+    } catch {
+      throw new HttpException(
+        '조회에 실패하였습니다.',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+    const start = Math.random() * (foundFlags.length - 12);
+    const flags = foundFlags.slice(start, start + 12 + 1);
 
     const result: ResMoonNLFlags = {
       moonShape: moonShape,
