@@ -6,7 +6,10 @@ export class PostEntity {
   id: number;
 
   @Column({ type: 'varchar' })
-  thumbnail: string;
+  thumbnail_post: string;
+
+  @Column({ type: 'varchar' })
+  thumbnail_list: string;
 
   @Column({ type: 'varchar' })
   title: string;
